@@ -22,6 +22,7 @@ namespace CircleApp.Controllers
         {
             var allPosts = await _appDbContext.Posts
                 .Include(n => n.User)
+                .Include(n => n.Likes)
                 .OrderByDescending(n => n.Id)
                 .ToListAsync();
             return View(allPosts);
@@ -69,6 +70,34 @@ namespace CircleApp.Controllers
             await _appDbContext.SaveChangesAsync();
 
             //Redirect to the index page
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TogglePostLike(PostLikeVM postLikeVM)
+        {
+            int loggedInUserId = 1;
+
+            //check if user has already liked the post
+            var like = await _appDbContext.Likes
+                .Where(l => l.PostId == postLikeVM.PostId && l.UserId == loggedInUserId)
+                .FirstOrDefaultAsync();
+
+            if (like != null)
+            {
+                 _appDbContext.Likes.Remove(like);
+                await _appDbContext.SaveChangesAsync();
+            }
+            else
+            {
+                var newLike = new Like()
+                {
+                    PostId = postLikeVM.PostId,
+                    UserId = loggedInUserId,
+                };
+                await _appDbContext.Likes.AddAsync(newLike);
+                await _appDbContext.SaveChangesAsync();
+            }
             return RedirectToAction("Index");
         }
     }
