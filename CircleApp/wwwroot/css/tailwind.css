@@ -619,7 +619,7 @@ html {
 
 body {
   --tw-bg-opacity: 1;
-  /*background-color: rgb(var(--color-bgbody) / var(--tw-bg-opacity));*/
+  background-color: rgb(var(--color-bgbody) / var(--tw-bg-opacity));
   font-weight: 400;
   --tw-text-opacity: 1;
   color: rgb(75 85 99 / var(--tw-text-opacity));
