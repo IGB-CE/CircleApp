@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircleApp", "CircleApp\CircleApp.csproj", "{66DC8A69-1706-4364-A75C-395C3B9A783F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircleApp.Data", "CircleApp.Data\CircleApp.Data.csproj", "{96FE9DEF-3864-4109-ACA6-475FF379C2A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{66DC8A69-1706-4364-A75C-395C3B9A783F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66DC8A69-1706-4364-A75C-395C3B9A783F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66DC8A69-1706-4364-A75C-395C3B9A783F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96FE9DEF-3864-4109-ACA6-475FF379C2A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96FE9DEF-3864-4109-ACA6-475FF379C2A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96FE9DEF-3864-4109-ACA6-475FF379C2A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96FE9DEF-3864-4109-ACA6-475FF379C2A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
