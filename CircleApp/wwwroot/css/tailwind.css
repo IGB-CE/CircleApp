@@ -625,12 +625,12 @@ body {
   color: rgb(75 85 99 / var(--tw-text-opacity));
 }
 
-@media (prefers-color-scheme: dark) {
+/*@media (prefers-color-scheme: dark) {
   body {
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity));
   }
-}
+}*/
 
 /* Basic */
 
@@ -671,7 +671,7 @@ input[type='text']::placeholder,
   color: rgb(75 85 99 / var(--tw-text-opacity)) !important;
 }
 
-@media (prefers-color-scheme: dark) {
+/*@media (prefers-color-scheme: dark) {
   input[type='text'],
     input[type='password'],
     input[type='email'], 
@@ -681,7 +681,7 @@ input[type='text']::placeholder,
     select, 
     textarea {
     color: rgb(255 255 255 / 0.9) !important;
-  }
+  }*/
 
   input[type='text']::-moz-placeholder, input[type='password']::-moz-placeholder, input[type='email']::-moz-placeholder, input[type='number']::-moz-placeholder, input[type='url']::-moz-placeholder, input[type='date']::-moz-placeholder, select::-moz-placeholder, textarea::-moz-placeholder {
     color: rgb(255 255 255 / 0.9) !important;

@@ -14,7 +14,7 @@
 
 <div class="bg-white rounded-xl shadow-sm text-sm font-medium border1">
     @* Post heading *@
-    <div class="flex gap-3 sm:p-4 p-2\.5 text-sm font-medium">
+    <div class="flex gap-3 sm:p-4 p-2.5 text-sm font-medium">
         <a>
             <img src="@(Model.User.ProfilePictureUrl ?? "~/images/avatar/user.png")" class="w-9 h-9 rounded-full" />
         </a>
@@ -33,7 +33,7 @@
             <div class="w-[245px]" uk-dropdown="pos: bottom-right; animation: uk-animation-scale-up uk-transform-origin-top-right;
                                 animate-out: true; mode:click">
                 <form>
-                    <button type="submit" class="hover\:bg-red-50 icon-link">
+                    <button type="submit" class="hover:bg-red-50 icon-link">
                         <ion-icon class="text-xl shrink-0" name="flag-outline">
                             Report
                         </ion-icon>
@@ -41,7 +41,7 @@
                 </form>
                 <hr />
                 <form>
-                    <button type="submit" class="hover\:bg-red-50 icon-link">
+                    <button type="submit" class="hover:bg-red-50 icon-link">
                         <ion-icon class="text-xl" name="lock-closed-outline">
                             Set as private
                         </ion-icon>
@@ -49,7 +49,7 @@
                 </form>
                 <hr />
                 <form>
-                    <button type="submit" class="hover\:bg-red-50 icon-link">
+                    <button type="submit" class="hover:bg-red-50 icon-link">
                         <ion-icon class="text-xl shrink-0" name="trash-bin-outline">
                             Delete post
                         </ion-icon>
@@ -60,7 +60,7 @@
     </div>
     @* Post content *@
     <a>
-        <div class="px-sm-4 p-2\.5 pt-0 w-full">
+        <div class="px-sm-4 p-2.5 pt-0 w-full">
             <p class="font-normal">
                 @Model.Content
             </p>
@@ -77,7 +77,7 @@
     }
 
     @* Icons *@
-    <div class="sm:p-4 p-2\.5 flex items-center gap-4 text-xs font-semibold">
+    <div class="sm:p-4 p-2.5 flex items-center gap-4 text-xs font-semibold">
 
         <div class="flex items-center gap-2.5">
             <form asp-controller="Home" asp-action="TogglePostLike">
@@ -88,7 +88,7 @@
                 </button>
             </form>
             <a href="#">
-                        @Model.Likes.Count
+                @Model.Likes.Count
             </a>
         </div>
         <div class="flex items-center gap-3">
@@ -96,7 +96,7 @@
                 <ion-icon class="text-lg" name="chatbubble-ellipses-outline"> </ion-icon>
             </a>
             <a href="#">
-                5
+                @Model.Comments.Count
             </a>
         </div>
         <div class="ml-auto"></div>
@@ -109,15 +109,69 @@
 
     @* Add comment section *@
     <div>
-        <div class="sm:px-4 sm:py-3 p-2\.5 border-t border-gray-100 flex items-center gap-1">
-            <img src="~/images/avatar/user.png" class="w-6 h-6 rounded-full" />
+        <div class="p-2.5 border-t border-gray-100 font-normal space-y-3 relative">
+            @foreach (var comment in Model.Comments.OrderByDescending(n => n.DateCreated).Take(3))
+            {
+                TimeSpan commentTimeSpanSincePosted = DateTime.UtcNow.Subtract(comment.DateCreated);
 
-            <div class="flex-1 relative overflow-hidden h-10">
-                <textarea placeholder="Add comment...." rows="1" class="w-full resize-none !bg-transparent
-                                    px-4 py-2 focus:!border=transparent focus:!ring-transparent"></textarea>
-            </div>
+                string commentDisplayTime = commentTimeSpanSincePosted switch
+                {
+                    var t when t.TotalDays >= 1 => $"{(int)t.TotalDays}d ago",
+                    var t when t.TotalHours >= 1 => $"{(int)t.TotalHours}h ago",
+                    var t when t.TotalMinutes >= 1 => $"{(int)t.TotalMinutes}m ago",
+                    _ => "Just now"
+                };
 
-            <button class="text-sm rounded-full py-1.5 px-3\.5 bg-secondary">Comment</button>
+                <div class="flex items-start gap-3 relative">
+                    <a>
+                        <img src="@(comment.User.ProfilePictureUrl ?? "~/images/avatar/user.png")" class="w-6 h-6 mt-1 rounded-full" />
+                    </a>
+                    <div class="flex-1">
+                        <div class="flex justify-content-between">
+                            <a class="text-black font-medium inline-block flex-grow">
+                                @comment.User.FullName
+                            </a>
+                            <small>@commentDisplayTime</small>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <p class="mt-0.5">
+                                @comment.Content
+                            </p>
+                            <form asp-controller="Home" asp-action="RemovePostComment">
+                                <input type="hidden" name="commentId" value="@comment.Id" />
+                                <button type="submit" class="text-red-500 text-xs ml-2" title="Remove post comment">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </button>
+                            </form>
+                        </div>  
+                    </div>
+                </div>
+            }
         </div>
+
+        @if (Model.Comments.Count >= 3)
+        {
+            <div class="p-1.5">
+                <a>Show all comments</a>  
+            </div>
+        }
+
+        <form asp-controller="Home" asp-action="AddPostComment">
+            <div class="sm:px-4 sm:py-3 p-2.5 border-t border-gray-100 flex items-center gap-1">
+                <img src="~/images/avatar/user.png" class="w-6 h-6 rounded-full" />
+
+
+                <input type="hidden" name="postId" value="@Model.Id" />
+                <div class="flex-1 relative overflow-hidden h-10">
+                    <textarea name="content"
+                              placeholder="Add comment...."
+                              rows="1"
+                              class="w-full text-black resize-none !bg-transparent
+                                    px-4 py-2 focus:!border=transparent focus:!ring-transparent"></textarea>
+                </div>
+
+                <button type="submit" class="text-sm rounded-full py-1.5 px-3.5 bg-secondary">Comment</button>
+            </div>
+        </form>
     </div>
 </div>
