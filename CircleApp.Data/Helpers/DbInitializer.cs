@@ -13,7 +13,7 @@ namespace CircleApp.Data.Helpers
 
         public static async Task SeedAsync(AppDbContext appDbContext)
         {
-            if (!appDbContext.Users.Any() && !appDbContext.Posts.Any())
+            if (!appDbContext.Users.Any() && !appDbContext.Report.Any())
             {
                 var newUser = new User()
                 {
